@@ -10,7 +10,7 @@ It'd be nice to have an easy, repeatable way of provisioning/tearing-down an on-
 
 Simple alternatives to setting up a dockerized jupyterlab cloud instance:
 1. [mybinder.org](https://mybinder.org/) - github repo -> transient dockerized jupyter notebook cloud hosting service.
-  - [Some dependancies](http://mybinder.readthedocs.io/en/latest/using.html#preparing-a-repository-for-binder) can be accommodated but not all.
+   - [Some dependancies](http://mybinder.readthedocs.io/en/latest/using.html#preparing-a-repository-for-binder) can be accommodated but not all.
 2. [ngrok.com](https://dashboard.ngrok.com/get-started) freemium service that sets up transient http tunnel from your local machine to an ngrok.com hosted endpoint. If it works, it could be the fastest way to share jupyterlab docker environment with friends w/o having to be rigorous in dockerfile etc about unlisted dependancies & packages.
 
 **update**: seems to work fine ngrok w/ jupyterlab. setup took approx 30 seconds and it's free.
