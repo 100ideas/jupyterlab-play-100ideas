@@ -4,38 +4,10 @@ Collection of random `.ipynb` tutorials and experiments.
 
 I mount this directory into `~/work` in a jupyterlab docker container running locally. Pushing up to GH to explore ways of collaboratively playing with a common notebook with friends & fam.
 
-Dockerfile is included w/ deps for `conda-forge`, `pydna` (BjornFJohansson), `biopython`, `numpy`, `pydna`, `mpldatacursor`, `pint`. Have added a few more python packages and notebook kernels to my local image but haven't kept them in sync w/ the dockerfile.
+Dockerfile is included w/ deps for `conda-forge`, `pydna` (BjornFJohansson), `biopython`,
+`numpy`, `pydna`, `mpldatacursor`, `pint`. Have added a few more python packages and notebook kernels to my local image but haven't kept them in sync w/ the dockerfile.
 
-It'd be nice to have an easy, repeatable way of provisioning/tearing-down an on-demand cloud-based dockerized jupyter environment for myself and some friends. Looks like a configuration rabbit-hole for now, though.  Maaaaybe someone already has a nice ansible script for google cloud platform etc? [yencarnacion/GCP-jupyter-notebook](https://github.com/yencarnacion/GCP-jupyter-notebook)
 
-Simple alternatives to setting up a dockerized jupyterlab cloud instance:
-1. [mybinder.org](https://mybinder.org/) - github repo -> transient dockerized jupyter notebook cloud hosting service.
-  - [Some dependancies](http://mybinder.readthedocs.io/en/latest/using.html#preparing-a-repository-for-binder) can be accommodated but not all.
-2. [ngrok.com](https://dashboard.ngrok.com/get-started) freemium service that sets up transient http tunnel from your local machine to an ngrok.com hosted endpoint. If it works, it could be the fastest way to share jupyterlab docker environment with friends w/o having to be rigorous in dockerfile etc about unlisted dependancies & packages.
-
-**update**: seems to work fine ngrok w/ jupyterlab. setup took approx 30 seconds and it's free.
-
-```sh
-~/dev/jupyterlab
-❯ docker run jupyterlab
-
-~/dev/jupyterlab
-❯ ./ngrok http 8888
-ngrok by @inconshreveable                                                                                                                                (Ctrl+C to quit)
-
-Session Status                online
-Account                       100ideas (Plan: Free)
-Version                       2.2.8
-Region                        United States (us)
-Web Interface                 http://127.0.0.1:4040
-Forwarding                    http://5b4aadf.ngrok.io -> localhost:8888
-Forwarding                    https://5b4aadf.ngrok.io -> localhost:8888
-```
----
-
-## bookmarks
-- https://www.datacamp.com/community/blog/jupyter-notebook-r
-- https://5b4aadf6.ngrok.io/lab/tree/work%2Fpydna%2Fgel_inline_ex.ipynb
 ---
 
 # 2018-03-17 pydna, jupyterlab, & jupyter js-service
