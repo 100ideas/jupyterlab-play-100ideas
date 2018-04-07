@@ -1,0 +1,1969 @@
+[
+    {
+        "id": "pr1b3y9qydecjk",
+        "name": "Pipetting",
+        "created_at": "2018-01-09T09:59:29.082-08:00",
+        "description": "Pipetting tools including Single Dilute, Resuspend, Full plate stamping and partial plate stamping",
+        "package_name": "com.transcriptic.autoprotocol-core3",
+        "package_id": "pk1a98x5gazcwyr",
+        "release_id": "re1b3y9qsezg6e",
+        "inputs": {
+            "ptype": {
+                "type": "group-choice",
+                "label": "Pipetting operation",
+                "default": "dilute",
+                "options": [
+                    {
+                        "value": "transfer",
+                        "name": "Transfer: Transfer from multiple containers to a single destination container.",
+                        "inputs": {
+                            "input_select": {
+                                "type": "group-choice",
+                                "description": "Choose parameters for aliquot tranfers.",
+                                "label": "Aliquot Transfer Parameters",
+                                "default": "select_aqs",
+                                "options": [
+                                    {
+                                        "value": "select_aqs",
+                                        "name": "Select Aliquots to Transfer",
+                                        "inputs": {
+                                            "tran_group": {
+                                                "type": "group+",
+                                                "description": "Choose a source aliquot and designate destination wells.",
+                                                "label": "Transfer to Single Container",
+                                                "inputs": {
+                                                    "source": {
+                                                        "type": "group+",
+                                                        "label": "Source Aliquot and Destination(s)",
+                                                        "inputs": {
+                                                            "src_well": {
+                                                                "type": "aliquot",
+                                                                "label": "Source aliquot"
+                                                            },
+                                                            "vol": {
+                                                                "type": "volume",
+                                                                "label": "Transfer volume",
+                                                                "default": "20:microliter",
+                                                                "description": "Volume to transfer from source well to every destination well in this group."
+                                                            },
+                                                            "dest_well": {
+                                                                "type": "string",
+                                                                "label": "Destination Well(s)",
+                                                                "default": "A1, A2, A3",
+                                                                "description": "Enter the destination well(s) for the transfer.  Multiple wells can be entered separated by commas."
+                                                            }
+                                                        }
+                                                    },
+                                                    "dest_cont": {
+                                                        "type": "group-choice",
+                                                        "label": "Destination container",
+                                                        "default": "new",
+                                                        "options": [
+                                                            {
+                                                                "name": "Create a new container",
+                                                                "value": "new",
+                                                                "inputs": {
+                                                                    "dest_name": {
+                                                                        "type": "string",
+                                                                        "label": "New Container Name"
+                                                                    },
+                                                                    "dest_store": {
+                                                                        "type": "choice",
+                                                                        "label": "Storage Condition",
+                                                                        "default": "cold_4",
+                                                                        "options": [
+                                                                            {
+                                                                                "value": "cold_20",
+                                                                                "name": "-20 C"
+                                                                            },
+                                                                            {
+                                                                                "value": "cold_80",
+                                                                                "name": "-80 C"
+                                                                            },
+                                                                            {
+                                                                                "value": "cold_4",
+                                                                                "name": "4 C"
+                                                                            },
+                                                                            {
+                                                                                "value": "ambient",
+                                                                                "name": "Room Temperature"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "dest_container_type": {
+                                                                        "type": "choice",
+                                                                        "label": "Container type",
+                                                                        "default": "96-pcr",
+                                                                        "options": [
+                                                                            {
+                                                                                "value": "micro-1.5"
+                                                                            },
+                                                                            {
+                                                                                "value": "micro-2.0"
+                                                                            },
+                                                                            {
+                                                                                "value": "96-deep"
+                                                                            },
+                                                                            {
+                                                                                "value": "96-deep-kf"
+                                                                            },
+                                                                            {
+                                                                                "value": "96-v-kf"
+                                                                            },
+                                                                            {
+                                                                                "value": "96-pcr"
+                                                                            },
+                                                                            {
+                                                                                "value": "96-flat"
+                                                                            },
+                                                                            {
+                                                                                "value": "384-flat"
+                                                                            },
+                                                                            {
+                                                                                "value": "384-pcr"
+                                                                            },
+                                                                            {
+                                                                                "value": "384-echo"
+                                                                            },
+                                                                            {
+                                                                                "value": "384-flat-clear-clear"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "value": "existing",
+                                                                "name": "Use a container from your inventory",
+                                                                "inputs": {
+                                                                    "dest_c": {
+                                                                        "type": "container",
+                                                                        "label": "Use an existing container as a destination",
+                                                                        "description": "Use a container in your inventory as a destination."
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "transfer_name": {
+                                                        "type": "bool",
+                                                        "default": true,
+                                                        "label": "Transfer Well Names",
+                                                        "description": "Transfer source well names to destination wells.  If a well already has a name, it will not be reassigned. "
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "value": "bulk_select",
+                                        "name": "Upload CSV",
+                                        "inputs": {
+                                            "source_containers": {
+                                                "type": "container+",
+                                                "label": " Source(s) from Your Inventory",
+                                                "description": " Select source(s) from your inventory.  This first container in this list will be indexed in the table by '1', the second container will be indexed by '2'."
+                                            },
+                                            "transfer_table": {
+                                                "type": "csv-table",
+                                                "label": "CSV Upload",
+                                                "template": {
+                                                    "header": [
+                                                        "SourceContainerIndex",
+                                                        "SourceWell",
+                                                        "DestinationContainerIndex",
+                                                        "DestinationWell",
+                                                        "Volume"
+                                                    ],
+                                                    "keys": [
+                                                        "src_c",
+                                                        "scr_w",
+                                                        "dest_c",
+                                                        "dest_w",
+                                                        "vol"
+                                                    ],
+                                                    "col_type": [
+                                                        "integer",
+                                                        "string",
+                                                        "integer",
+                                                        "string",
+                                                        "volume"
+                                                    ],
+                                                    "rows": [
+                                                        [
+                                                            "1",
+                                                            "A1",
+                                                            "1",
+                                                            "A1",
+                                                            "20:microliter"
+                                                        ],
+                                                        [
+                                                            "2",
+                                                            "A1",
+                                                            "1",
+                                                            "A1",
+                                                            "10:microliter"
+                                                        ]
+                                                    ],
+                                                    "label": "TransferMap"
+                                                }
+                                            },
+                                            "dest_containers": {
+                                                "type": "container+",
+                                                "label": " Destination(s) from Your Inventory",
+                                                "description": " Select destination(s) from your inventory.  This first container in this list will be indexed in the table by '1', the second container will be indexed by '2'."
+                                            },
+                                            "transfer_name": {
+                                                "type": "bool",
+                                                "default": true,
+                                                "label": "Transfer Well Names",
+                                                "description": "Transfer source well names to destination wells.  If a well already has a name, it will not be reassigned. "
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "value": "resuspend",
+                        "name": "Resuspend: Add a solution to resuspend or dilute a reagent.",
+                        "inputs": {
+                            "sample": {
+                                "type": "group+",
+                                "label": "Samples to Resuspend",
+                                "inputs": {
+                                    "dest": {
+                                        "type": "aliquot+",
+                                        "label": "sample"
+                                    },
+                                    "diluent_vol": {
+                                        "type": "volume",
+                                        "label": "Diluent volume",
+                                        "default": "20:microliter"
+                                    },
+                                    "spin": {
+                                        "type": "bool",
+                                        "label": "Spin before resuspending?",
+                                        "default": false,
+                                        "description": "Spin container before adding diluent"
+                                    },
+                                    "diluent": {
+                                        "type": "group-choice",
+                                        "label": "Diluent",
+                                        "description": "Choose either a aliquot from your inventory or an offered diluent from the list.",
+                                        "options": [
+                                            {
+                                                "value": "aliquot",
+                                                "name": "From Your Inventory",
+                                                "inputs": {
+                                                    "aliquot": {
+                                                        "type": "aliquot+",
+                                                        "label": "Diluent"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "value": "provision_diluent",
+                                                "name": "Provision a Diluent",
+                                                "inputs": {
+                                                    "aliquot": {
+                                                        "type": "choice",
+                                                        "label": "Diluent",
+                                                        "options": [
+                                                            {
+                                                                "value": "TE",
+                                                                "name": "TE"
+                                                            },
+                                                            {
+                                                                "value": "water",
+                                                                "name": "Water"
+                                                            }
+                                                        ],
+                                                        "default": "water"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "default": "provision_diluent"
+                                    },
+                                    "measure_conc": {
+                                        "type": "choice",
+                                        "label": "Additional Analysis",
+                                        "description": "Perform a concentration measurement on each aliquot after resuspension.",
+                                        "default": "none",
+                                        "options": [
+                                            {
+                                                "value": "none",
+                                                "name": "None"
+                                            },
+                                            {
+                                                "value": "DNA",
+                                                "name": "Measure DNA Concentration"
+                                            },
+                                            {
+                                                "value": "RNA",
+                                                "name": "Measure RNA Concentration"
+                                            },
+                                            {
+                                                "value": "ssDNA",
+                                                "name": "Measure ssDNA Concentration"
+                                            },
+                                            {
+                                                "value": "protein",
+                                                "name": "Measure Protein Concentration"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "value": "dilute",
+                        "name": "Dilute: Create dilutions in your diluent of choice.",
+                        "inputs": {
+                            "sample": {
+                                "type": "group+",
+                                "label": "Sample groups",
+                                "inputs": {
+                                    "src": {
+                                        "type": "aliquot+",
+                                        "label": "Samples to dilute"
+                                    },
+                                    "volume_src": {
+                                        "type": "volume",
+                                        "label": "Volume of sample",
+                                        "default": "10:microliter"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "label": "Container label",
+                                        "description": "Label for the new container being created. Aliquot name will be derived from the source aliquot name."
+                                    },
+                                    "dest": {
+                                        "type": "choice",
+                                        "label": "Tube type for diluted aliquot",
+                                        "options": [
+                                            {
+                                                "value": "micro-1.5"
+                                            },
+                                            {
+                                                "value": "micro-2.0"
+                                            },
+                                            {
+                                                "value": "96-pcr"
+                                            },
+                                            {
+                                                "value": "384-pcr"
+                                            },
+                                            {
+                                                "value": "96-deep"
+                                            },
+                                            {
+                                                "value": "96-flat"
+                                            },
+                                            {
+                                                "value": "384-flat"
+                                            },
+                                            {
+                                                "value": "384-echo"
+                                            }
+                                        ],
+                                        "default": "micro-1.5"
+                                    },
+                                    "storage_condition": {
+                                        "type": "choice",
+                                        "label": "Storage condition for diluted aliquot",
+                                        "options": [
+                                            {
+                                                "value": "cold_80"
+                                            },
+                                            {
+                                                "value": "cold_20"
+                                            },
+                                            {
+                                                "value": "cold_4"
+                                            },
+                                            {
+                                                "value": "ambient"
+                                            }
+                                        ],
+                                        "default": "cold_20"
+                                    },
+                                    "volume_diluent": {
+                                        "type": "volume",
+                                        "label": "Volume of diluent",
+                                        "default": "90:microliter"
+                                    },
+                                    "diluent": {
+                                        "type": "group-choice",
+                                        "label": "Diluent",
+                                        "description": "Choose either a aliquot from your inventory or an offered diluent from the list.",
+                                        "options": [
+                                            {
+                                                "value": "aliquot",
+                                                "name": "From Your Inventory",
+                                                "inputs": {
+                                                    "aliquot": {
+                                                        "type": "aliquot+",
+                                                        "label": "Diluent"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "value": "provision_diluent",
+                                                "name": "Provision a Diluent",
+                                                "inputs": {
+                                                    "aliquot": {
+                                                        "type": "choice",
+                                                        "label": "Diluent",
+                                                        "options": [
+                                                            {
+                                                                "value": "TE",
+                                                                "name": "TE"
+                                                            },
+                                                            {
+                                                                "value": "water",
+                                                                "name": "Water"
+                                                            }
+                                                        ],
+                                                        "default": "water"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "default": "provision_diluent"
+                                    },
+                                    "measure_conc": {
+                                        "type": "choice",
+                                        "label": "Additional Analysis",
+                                        "description": "Perform a concentration measurement on each aliquot after dilution.",
+                                        "default": "none",
+                                        "options": [
+                                            {
+                                                "value": "none",
+                                                "name": "None"
+                                            },
+                                            {
+                                                "value": "DNA",
+                                                "name": "Measure DNA Concentration"
+                                            },
+                                            {
+                                                "value": "RNA",
+                                                "name": "Measure RNA Concentration"
+                                            },
+                                            {
+                                                "value": "ssDNA",
+                                                "name": "Measure ssDNA Concentration"
+                                            },
+                                            {
+                                                "value": "protein",
+                                                "name": "Measure Protein Concentration"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "value": "platestamp",
+                        "name": "Plate stamp: Stamp full plates or individual quadrants to reformat between 96 and 384 plates.",
+                        "inputs": {
+                            "stamp_group": {
+                                "type": "group+",
+                                "label": "Stamp Groups",
+                                "description": "Only 96 or 384-well plates are stampable",
+                                "inputs": {
+                                    "source": {
+                                        "type": "group",
+                                        "label": "Source - 96 or 384 well",
+                                        "inputs": {
+                                            "src_c": {
+                                                "type": "container",
+                                                "label": "Source container"
+                                            },
+                                            "quad": {
+                                                "type": "choice",
+                                                "label": "Quadrant",
+                                                "default": "full",
+                                                "options": [
+                                                    {
+                                                        "value": "full",
+                                                        "name": "Full plate"
+                                                    },
+                                                    {
+                                                        "value": "A1",
+                                                        "name": "Quadrant 1 (A1)"
+                                                    },
+                                                    {
+                                                        "value": "A2",
+                                                        "name": "Quadrant 2 (A2)"
+                                                    },
+                                                    {
+                                                        "value": "B1",
+                                                        "name": "Quadrant 3 (B1)"
+                                                    },
+                                                    {
+                                                        "value": "B2",
+                                                        "name": "Quadrant 4 (B2)"
+                                                    }
+                                                ]
+                                            },
+                                            "vol": {
+                                                "type": "volume",
+                                                "label": "Transfer volume",
+                                                "default": "20:microliter",
+                                                "description": "Volume to transfer from source plate."
+                                            }
+                                        }
+                                    },
+                                    "dest": {
+                                        "type": "group",
+                                        "label": "Destination - 96 or 384 well",
+                                        "inputs": {
+                                            "dest_c": {
+                                                "type": "group-choice",
+                                                "label": "Destination container",
+                                                "default": "new",
+                                                "options": [
+                                                    {
+                                                        "value": "new",
+                                                        "name": "Create a new destination plate",
+                                                        "inputs": {
+                                                            "dest_name": {
+                                                                "label": "New Plate Name",
+                                                                "type": "string"
+                                                            },
+                                                            "dest_store": {
+                                                                "label": "Storage Condition",
+                                                                "type": "choice",
+                                                                "default": "cold_4",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "cold_20",
+                                                                        "name": "-20 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_80",
+                                                                        "name": "-80 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_4",
+                                                                        "name": "4 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "ambient",
+                                                                        "name": "Room Temperature"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "dest_c_type": {
+                                                                "label": "Container type",
+                                                                "type": "choice",
+                                                                "default": "96-pcr",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "96-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-deep"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-echo"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "quad": {
+                                                                "type": "choice",
+                                                                "label": "Quadrant",
+                                                                "default": "full",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "full",
+                                                                        "name": "Full plate"
+                                                                    },
+                                                                    {
+                                                                        "value": "A1",
+                                                                        "name": "Quadrant 1 (A1)"
+                                                                    },
+                                                                    {
+                                                                        "value": "A2",
+                                                                        "name": "Quadrant 2 (A2)"
+                                                                    },
+                                                                    {
+                                                                        "value": "B1",
+                                                                        "name": "Quadrant 3 (B1)"
+                                                                    },
+                                                                    {
+                                                                        "value": "B2",
+                                                                        "name": "Quadrant 4 (B2)"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "value": "existing",
+                                                        "name": "Use a plate from your inventory",
+                                                        "inputs": {
+                                                            "dest_c": {
+                                                                "type": "container",
+                                                                "label": "Use an existing plate as a destination",
+                                                                "description": "Use a plate in your inventory as a destination. Plate must have 96 or 384 wells."
+                                                            },
+                                                            "quad": {
+                                                                "type": "choice",
+                                                                "label": "Quadrant",
+                                                                "default": "full",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "full",
+                                                                        "name": "Full plate"
+                                                                    },
+                                                                    {
+                                                                        "value": "A1",
+                                                                        "name": "Quadrant 1 (A1)"
+                                                                    },
+                                                                    {
+                                                                        "value": "A2",
+                                                                        "name": "Quadrant 2 (A2)"
+                                                                    },
+                                                                    {
+                                                                        "value": "B1",
+                                                                        "name": "Quadrant 3 (B1)"
+                                                                    },
+                                                                    {
+                                                                        "value": "B2",
+                                                                        "name": "Quadrant 4 (B2)"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "value": "selectivestamp",
+                        "name": "Row or Column stamp: Stamp a full reactangle of wells to another plate - maintaining the shape.",
+                        "inputs": {
+                            "stamp_group": {
+                                "type": "group+",
+                                "label": "Stamp Groups",
+                                "description": "Only 96 plates are selectively stampable",
+                                "inputs": {
+                                    "source": {
+                                        "type": "group",
+                                        "label": "Source - 96 well",
+                                        "inputs": {
+                                            "src_w": {
+                                                "type": "aliquot+",
+                                                "label": "Source wells - full rows or columes",
+                                                "description": "Source wells have to form a complete rectangle and contain either full rows or full columns"
+                                            },
+                                            "vol": {
+                                                "type": "volume",
+                                                "label": "Transfer volume",
+                                                "default": "20:microliter",
+                                                "description": "Volume to transfer from source plate for every well."
+                                            }
+                                        }
+                                    },
+                                    "dest": {
+                                        "type": "group",
+                                        "label": "Destination - 96 or 384 well",
+                                        "inputs": {
+                                            "dest_c": {
+                                                "type": "group-choice",
+                                                "label": "Destination container",
+                                                "default": "new",
+                                                "options": [
+                                                    {
+                                                        "value": "new",
+                                                        "name": "Create a new destination plate",
+                                                        "inputs": {
+                                                            "dest_name": {
+                                                                "label": "New Plate Name",
+                                                                "type": "string"
+                                                            },
+                                                            "dest_store": {
+                                                                "label": "Storage Condition",
+                                                                "type": "choice",
+                                                                "default": "cold_4",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "cold_20",
+                                                                        "name": "-20 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_80",
+                                                                        "name": "-80 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_4",
+                                                                        "name": "4 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "ambient",
+                                                                        "name": "Room Temperature"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "dest_c_type": {
+                                                                "label": "Container type",
+                                                                "type": "choice",
+                                                                "default": "96-pcr",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "96-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-deep"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-echo"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "target_well": {
+                                                                "type": "string",
+                                                                "label": "Top left destination well",
+                                                                "default": "A1"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "value": "existing",
+                                                        "name": "Use a plate from your inventory",
+                                                        "inputs": {
+                                                            "dest_c": {
+                                                                "type": "container",
+                                                                "label": "Use an existing plate as a destination",
+                                                                "description": "Use a plate in your inventory as a destination. Plate must have 96 or 384 wells."
+                                                            },
+                                                            "target_well": {
+                                                                "type": "string",
+                                                                "label": "Top left destination well",
+                                                                "default": "A1"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "value": "cherry_pick",
+                        "name": "Cherry pick: Transfer volumes of aliquots from a source plate to a destination plate.",
+                        "inputs": {
+                            "cherry_group": {
+                                "type": "group+",
+                                "label": "Cherry Pick Sets",
+                                "description": "Choose a source and destination plate and upload a well transfer map.",
+                                "inputs": {
+                                    "source": {
+                                        "type": "group",
+                                        "label": "Source - 96 or 384 well",
+                                        "inputs": {
+                                            "src_c": {
+                                                "type": "container",
+                                                "label": "Source container"
+                                            },
+                                            "confirm_volume": {
+                                                "type": "bool",
+                                                "default": true,
+                                                "label": "Confirm Source Volumes",
+                                                "description": "Confirm that your source wells have sufficient volume to execute this transfer. If unchecked the protocol will be executed even if some wells do not have the required volume.  Currently, volumes are only confirmed on a single transfer basis and are not cumulatively checked."
+                                            }
+                                        }
+                                    },
+                                    "dest": {
+                                        "type": "group",
+                                        "label": "Destination - 96 or 384 well",
+                                        "inputs": {
+                                            "dest_c": {
+                                                "type": "group-choice",
+                                                "label": "Destination container",
+                                                "default": "new",
+                                                "options": [
+                                                    {
+                                                        "value": "new",
+                                                        "name": "Create a new destination plate",
+                                                        "inputs": {
+                                                            "dest_name": {
+                                                                "label": "New Plate Name",
+                                                                "type": "string"
+                                                            },
+                                                            "w_name": {
+                                                                "label": "Transfer Source Name",
+                                                                "type": "bool",
+                                                                "default": false,
+                                                                "description": "Transfer the name of the source well to the destination well.  Note, optional well names designated in the csv will overwrite automatic well naming."
+                                                            },
+                                                            "dest_store": {
+                                                                "label": "Storage Condition",
+                                                                "type": "choice",
+                                                                "default": "cold_4",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "cold_20",
+                                                                        "name": "-20 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_80",
+                                                                        "name": "-80 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_4",
+                                                                        "name": "4 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "ambient",
+                                                                        "name": "Room Temperature"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "dest_c_type": {
+                                                                "label": "Container type",
+                                                                "type": "choice",
+                                                                "default": "96-pcr",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "96-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-deep"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-echo"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "cherry_map": {
+                                                                "type": "csv",
+                                                                "label": "Upload Transfer Map",
+                                                                "description": "Map to transfer from source to destination, according to volumes",
+                                                                "template": {
+                                                                    "label": "Upload Map",
+                                                                    "header": [
+                                                                        "source_well",
+                                                                        "destination_well",
+                                                                        "volume (microliters)",
+                                                                        "destination_well name (optional)"
+                                                                    ],
+                                                                    "rows": [
+                                                                        [
+                                                                            "A1",
+                                                                            "B12",
+                                                                            "20"
+                                                                        ],
+                                                                        [
+                                                                            "B1",
+                                                                            "A2",
+                                                                            "10",
+                                                                            "PX3-41"
+                                                                        ],
+                                                                        [
+                                                                            "B6",
+                                                                            "C12",
+                                                                            "10",
+                                                                            "sample_6"
+                                                                        ],
+                                                                        [
+                                                                            "A1",
+                                                                            "C1",
+                                                                            "5"
+                                                                        ]
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "value": "existing",
+                                                        "name": "Use a plate from your inventory",
+                                                        "inputs": {
+                                                            "dest_c": {
+                                                                "type": "container",
+                                                                "label": "Use an existing plate as a destination",
+                                                                "description": "Use a plate in your inventory as a destination. Plate must have 96 or 384 wells."
+                                                            },
+                                                            "cherry_map": {
+                                                                "type": "csv",
+                                                                "label": "Upload Transfer Map",
+                                                                "description": "Map to transfer from source to destination, according to volumes",
+                                                                "template": {
+                                                                    "label": "Upload Map",
+                                                                    "header": [
+                                                                        "source_well",
+                                                                        "destination_well",
+                                                                        "volume (microliters)"
+                                                                    ],
+                                                                    "rows": [
+                                                                        [
+                                                                            "A1",
+                                                                            "B12",
+                                                                            "20"
+                                                                        ],
+                                                                        [
+                                                                            "B1",
+                                                                            "A2",
+                                                                            "10"
+                                                                        ],
+                                                                        [
+                                                                            "B6",
+                                                                            "C12",
+                                                                            "10"
+                                                                        ],
+                                                                        [
+                                                                            "A1",
+                                                                            "C1",
+                                                                            "5"
+                                                                        ]
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "value": "consolidate",
+                                                        "name": "Sequentially transfer cherry picked samples to new container.",
+                                                        "inputs": {
+                                                            "dest_name": {
+                                                                "label": "New Plate Name",
+                                                                "type": "string"
+                                                            },
+                                                            "dest_store": {
+                                                                "label": "Storage Condition",
+                                                                "type": "choice",
+                                                                "default": "cold_4",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "cold_20",
+                                                                        "name": "-20 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_80",
+                                                                        "name": "-80 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_4",
+                                                                        "name": "4 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "ambient",
+                                                                        "name": "Room Temperature"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "dest_c_type": {
+                                                                "label": "Container type",
+                                                                "type": "choice",
+                                                                "default": "96-pcr",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "96-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-deep"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-echo"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "cherry_map": {
+                                                                "type": "csv",
+                                                                "label": "Upload Transfer Map",
+                                                                "description": "Map of selected wells in source container, transfer will be sequential.",
+                                                                "template": {
+                                                                    "label": "Upload Map",
+                                                                    "header": [
+                                                                        "source_well",
+                                                                        "volume (microliters)"
+                                                                    ],
+                                                                    "rows": [
+                                                                        [
+                                                                            "A1",
+                                                                            "20"
+                                                                        ],
+                                                                        [
+                                                                            "B1",
+                                                                            "10"
+                                                                        ],
+                                                                        [
+                                                                            "B6",
+                                                                            "10"
+                                                                        ],
+                                                                        [
+                                                                            "A1",
+                                                                            "5"
+                                                                        ]
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "value": "consolidate",
+                        "name": "Consolidate: Transfer volumes from different containers to a destination container.",
+                        "inputs": {
+                            "pick_group": {
+                                "type": "group+",
+                                "description": "Choose a source and destination plate.",
+                                "label": "Consolidate Containers",
+                                "inputs": {
+                                    "source": {
+                                        "type": "group",
+                                        "label": "Source - choose aliquots",
+                                        "inputs": {
+                                            "source_container": {
+                                                "type": "aliquot+",
+                                                "label": "Source aliquots"
+                                            },
+                                            "well_vol": {
+                                                "type": "group-choice",
+                                                "description": "Indicate how much volume to pipette from each well.",
+                                                "label": "Volume to consolidate",
+                                                "default": "all",
+                                                "options": [
+                                                    {
+                                                        "name": "All pipettable volume",
+                                                        "value": "all",
+                                                        "inputs": {}
+                                                    },
+                                                    {
+                                                        "name": "Specify volume to consolidate",
+                                                        "value": "user_input",
+                                                        "inputs": {
+                                                            "user_vol": {
+                                                                "type": "volume",
+                                                                "label": "Volume",
+                                                                "default": "2.0:microliter",
+                                                                "description": "Volume to be consolidated per well. Limit 2uL per well."
+                                                            },
+                                                            "confirm_volume": {
+                                                                "type": "bool",
+                                                                "default": true,
+                                                                "label": "Confirm Source Volumes",
+                                                                "description": "Confirm that your source wells have sufficient volume to execute this. Currently, volumes are only confirmed on a single transfer basis and are not cumulatively checked."
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "dest": {
+                                        "type": "group",
+                                        "label": "Destination container",
+                                        "inputs": {
+                                            "dest_cont": {
+                                                "type": "group-choice",
+                                                "label": "Destination container",
+                                                "default": "new",
+                                                "options": [
+                                                    {
+                                                        "name": "Create a new destination plate",
+                                                        "value": "new",
+                                                        "inputs": {
+                                                            "dest_name": {
+                                                                "type": "string",
+                                                                "label": "New Container Name"
+                                                            },
+                                                            "dest_store": {
+                                                                "type": "choice",
+                                                                "label": "Storage Condition",
+                                                                "default": "cold_4",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "cold_20",
+                                                                        "name": "-20 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_80",
+                                                                        "name": "-80 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "cold_4",
+                                                                        "name": "4 C"
+                                                                    },
+                                                                    {
+                                                                        "value": "ambient",
+                                                                        "name": "Room Temperature"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "dest_container_type": {
+                                                                "type": "choice",
+                                                                "label": "Container type",
+                                                                "default": "micro-1.5",
+                                                                "options": [
+                                                                    {
+                                                                        "value": "micro-1.5"
+                                                                    },
+                                                                    {
+                                                                        "value": "micro-2.0"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-deep"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-deep-kf"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-v-kf"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "96-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-flat"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-pcr"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-echo"
+                                                                    },
+                                                                    {
+                                                                        "value": "384-flat-clear-clear"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "dest_well": {
+                                                                "type": "string",
+                                                                "label": "Well Location",
+                                                                "default": "A1",
+                                                                "description": "Choose a well destination. A1 indicates the top left well for all plates. If you would like to place your aliquot in the middle of a container: D6 is the middle of a 96 well plate; H12 is the middle of a 384 well plate."
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "value": "existing",
+                                                        "name": "Use a container from your inventory",
+                                                        "inputs": {
+                                                            "dest_c": {
+                                                                "type": "container+",
+                                                                "label": "Use an existing container as a destination",
+                                                                "description": "Use a container in your inventory as a destination."
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "preview": {
+            "refs": {
+                "Demo POS": {
+                    "new": "micro-2.0",
+                    "store": {
+                        "where": "cold_80"
+                    },
+                    "container_type": {
+                        "id": "micro-2.0",
+                        "name": "2mL Microcentrifuge tube",
+                        "well_count": 1,
+                        "well_volume_ul": "2200.0",
+                        "shortname": "micro-2.0",
+                        "col_count": 1,
+                        "is_tube": true,
+                        "retired_at": null
+                    }
+                },
+                "demo_container": {
+                    "new": "96-flat",
+                    "store": {
+                        "where": "cold_4"
+                    },
+                    "container_type": {
+                        "id": "96-flat",
+                        "name": "96-well flat-bottom plate",
+                        "well_count": 96,
+                        "well_volume_ul": "340.0",
+                        "shortname": "96-flat",
+                        "col_count": 12,
+                        "is_tube": false,
+                        "retired_at": null
+                    }
+                },
+                "Demo 63": {
+                    "new": "micro-2.0",
+                    "store": {
+                        "where": "cold_80"
+                    },
+                    "container_type": {
+                        "id": "micro-2.0",
+                        "name": "2mL Microcentrifuge tube",
+                        "well_count": 1,
+                        "well_volume_ul": "2200.0",
+                        "shortname": "micro-2.0",
+                        "col_count": 1,
+                        "is_tube": true,
+                        "retired_at": null
+                    }
+                }
+            },
+            "outs": {
+                "Demo POS": {
+                    "0": {
+                        "name": "Demo POS"
+                    }
+                },
+                "demo_container": {
+                    "0": {
+                        "name": "Demo POS"
+                    },
+                    "1": {
+                        "name": "Demo POS"
+                    },
+                    "2": {
+                        "name": "Demo POS"
+                    },
+                    "23": {
+                        "name": "Demo POS"
+                    }
+                },
+                "Demo 63": {
+                    "0": {
+                        "name": "Demo 63"
+                    }
+                }
+            },
+            "price": [
+                {
+                    "price_each": 3.85,
+                    "description": "Pipetting: Transfer",
+                    "quantity": 5
+                }
+            ],
+            "instructions": [
+                {
+                    "groups": [
+                        {
+                            "transfer": [
+                                {
+                                    "volume": "20.0:microliter",
+                                    "to": "Demo 63/0",
+                                    "from": "Demo POS/0"
+                                }
+                            ]
+                        },
+                        {
+                            "transfer": [
+                                {
+                                    "volume": "200.0:microliter",
+                                    "to": "demo_container/0",
+                                    "from": "Demo POS/0"
+                                }
+                            ]
+                        },
+                        {
+                            "transfer": [
+                                {
+                                    "volume": "200.0:microliter",
+                                    "to": "demo_container/1",
+                                    "from": "Demo POS/0"
+                                }
+                            ]
+                        },
+                        {
+                            "transfer": [
+                                {
+                                    "volume": "200.0:microliter",
+                                    "to": "demo_container/2",
+                                    "from": "Demo POS/0"
+                                }
+                            ]
+                        },
+                        {
+                            "transfer": [
+                                {
+                                    "volume": "200.0:microliter",
+                                    "to": "demo_container/23",
+                                    "from": "Demo POS/0"
+                                }
+                            ]
+                        }
+                    ],
+                    "op": "pipette"
+                },
+                {
+                    "lid": "low_evaporation",
+                    "object": "demo_container",
+                    "op": "cover"
+                }
+            ]
+        },
+        "license": "MIT",
+        "command_string": "python -m pipetting",
+        "published": true,
+        "categories": [
+            "Quick Instructions"
+        ],
+        "image_url": "https://static.transcriptic.com/protocol-img/protocl-img_high-throughput-pipetting%402x.png",
+        "validation_url": "https://static.transcriptic.com/protocol-rep-data/rep-data_high-throughput-pipetting.pdf",
+        "display_name": "Pipetting Tools",
+        "version": "2.4.0",
+        "logo_url": null,
+        "package": {
+            "id": "pk1a98x5gazcwyr",
+            "name": "com.transcriptic.autoprotocol-core3",
+            "description": null,
+            "created_at": "2017-02-28T17:33:52.649-08:00",
+            "public": true,
+            "organization_id": "org13",
+            "release_count": 6,
+            "latest_version": "re1a98x88sa3r9e",
+            "owner": {
+                "id": "u1786qx96dfsg",
+                "email": "vanessa@transcriptic.com",
+                "name": "Vanessa Biggers"
+            }
+        }
+    },
+    {
+        "id": "pr1a6gvandxw7g",
+        "name": "Provision",
+        "created_at": "2017-04-18T15:11:27.901-07:00",
+        "description": "Provision a resource from the catalog: https://secure.transcriptic.com/_commercial/kits",
+        "package_name": "com.transcriptic.autoprotocol-core3",
+        "package_id": "pk1a98x5gazcwyr",
+        "release_id": "re1a6gvae6j3yp",
+        "inputs": {
+            "items": {
+                "type": "group+",
+                "label": "Provision",
+                "inputs": {
+                    "name": {
+                        "type": "string",
+                        "label": "New Container Name",
+                        "default": "10X TBS with 0.5% Tween 20."
+                    },
+                    "cont_type": {
+                        "type": "choice",
+                        "label": "Container type",
+                        "description": "Choose the container for the resource to be provisioned into.  If a plate is chosen, all wells in the plate will be filled with the same amount. Additional information about containers can be found at https://developers.transcriptic.com/docs/containers",
+                        "default": "micro-1.5",
+                        "options": [
+                            {
+                                "value": "96-pcr",
+                                "name": "96-pcr"
+                            },
+                            {
+                                "value": "96-flat",
+                                "name": "96-flat"
+                            },
+                            {
+                                "value": "96-deep",
+                                "name": "96-deep"
+                            },
+                            {
+                                "value": "96-deep-kf",
+                                "name": "96-deep-kf"
+                            },
+                            {
+                                "value": "96-v-kf",
+                                "name": "96-v-kf"
+                            },
+                            {
+                                "value": "384-pcr",
+                                "name": "384-pcr"
+                            },
+                            {
+                                "value": "384-flat",
+                                "name": "384-flat"
+                            },
+                            {
+                                "value": "384-echo",
+                                "name": "384-echo"
+                            },
+                            {
+                                "value": "micro-1.5",
+                                "name": "micro-1.5"
+                            },
+                            {
+                                "value": "micro-2.0",
+                                "name": "micro-2.0"
+                            }
+                        ]
+                    },
+                    "res_id": {
+                        "type": "string",
+                        "label": "Resource Id of Resource to be Provisioned",
+                        "description": "More resource ids: https://secure.transcriptic.com/_commercial/kits",
+                        "default": "rs19ktpq4z7teg"
+                    },
+                    "vol": {
+                        "type": "volume",
+                        "label": "Volume to provision",
+                        "description": "Max volumes for containers can be found at https://developers.transcriptic.com/docs/containers",
+                        "default": "100:microliter"
+                    },
+                    "dead_vol": {
+                        "type": "bool",
+                        "default": false,
+                        "label": "Pipette in additional dead volume.",
+                        "required": true,
+                        "description": "Specify whether to provision an additional container specific dead volume. Additional information about dead volumes for containers can be found at https://developers.transcriptic.com/docs/containers"
+                    },
+                    "storage_condition": {
+                        "type": "choice",
+                        "label": "Storage condition for provisioned aliquot",
+                        "options": [
+                            {
+                                "value": "cold_80"
+                            },
+                            {
+                                "value": "cold_20"
+                            },
+                            {
+                                "value": "cold_4"
+                            },
+                            {
+                                "value": "ambient"
+                            }
+                        ],
+                        "default": "cold_20"
+                    }
+                }
+            }
+        },
+        "preview": {
+            "refs": {
+                "10X TBS with 0.5% Tween 20.-1": {
+                    "new": "micro-1.5",
+                    "store": {
+                        "where": "cold_4"
+                    },
+                    "container_type": {
+                        "id": "micro-1.5",
+                        "name": "1.5mL Microcentrifuge tube",
+                        "well_count": 1,
+                        "well_volume_ul": "1650.0",
+                        "shortname": "micro-1.5",
+                        "col_count": 1,
+                        "is_tube": true,
+                        "retired_at": null
+                    }
+                },
+                "10X TBS with 0.5% Tween 20.-0": {
+                    "new": "96-deep",
+                    "store": {
+                        "where": "cold_20"
+                    },
+                    "container_type": {
+                        "id": "96-deep",
+                        "name": "96-well extended capacity plate",
+                        "well_count": 96,
+                        "well_volume_ul": "2000.0",
+                        "shortname": "96-deep",
+                        "col_count": 12,
+                        "is_tube": false,
+                        "retired_at": null
+                    }
+                }
+            },
+            "instructions": [
+                {
+                    "to": [
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/0"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/1"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/2"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/3"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/4"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/5"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/6"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/7"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/8"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/9"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/10"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/11"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/12"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/13"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/14"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/15"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/16"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/17"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/18"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/19"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/20"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/21"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/22"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/23"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/24"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/25"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/26"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/27"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/28"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/29"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/30"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/31"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/32"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/33"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/34"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/35"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/36"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/37"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/38"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/39"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/40"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/41"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/42"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/43"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/44"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/45"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/46"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/47"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/48"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/49"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/50"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/51"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/52"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/53"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/54"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/55"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/56"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/57"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/58"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/59"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/60"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/61"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/62"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/63"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/64"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/65"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/66"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/67"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/68"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/69"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/70"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/71"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/72"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/73"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/74"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/75"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/76"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/77"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/78"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/79"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/80"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/81"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/82"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/83"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/84"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/85"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/86"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/87"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/88"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/89"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/90"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/91"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/92"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/93"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/94"
+                        },
+                        {
+                            "volume": "415.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-0/95"
+                        }
+                    ],
+                    "op": "provision",
+                    "resource_id": "rs19ktpq4z7teg"
+                },
+                {
+                    "lid": "standard",
+                    "x_human": true,
+                    "object": "10X TBS with 0.5% Tween 20.-0",
+                    "op": "cover"
+                },
+                {
+                    "to": [
+                        {
+                            "volume": "400.0:microliter",
+                            "well": "10X TBS with 0.5% Tween 20.-1/0"
+                        }
+                    ],
+                    "op": "provision",
+                    "resource_id": "rs19ktpq4z7teg"
+                }
+            ]
+        },
+        "license": "MIT",
+        "command_string": "python -m provision",
+        "published": true,
+        "categories": [
+            "Quick Instructions"
+        ],
+        "image_url": null,
+        "validation_url": null,
+        "display_name": "Provision resource",
+        "version": "3.0.0",
+        "logo_url": null,
+        "package": {
+            "id": "pk1a98x5gazcwyr",
+            "name": "com.transcriptic.autoprotocol-core3",
+            "description": null,
+            "created_at": "2017-02-28T17:33:52.649-08:00",
+            "public": true,
+            "organization_id": "org13",
+            "release_count": 6,
+            "latest_version": "re1a98x88sa3r9e",
+            "owner": {
+                "id": "u1786qx96dfsg",
+                "email": "vanessa@transcriptic.com",
+                "name": "Vanessa Biggers"
+            }
+        }
+    }
+]
